@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Progress | Importados Exclusivos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #F8F9FA;
+            --text-dark: #212529;
+            --primary: #0F5132;
+            --primary-hover: #198754;
+            --white: #FFFFFF;
+            --gray-light: #E9ECEF;
+            --gray-medium: #6C757D;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cart-badge {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.2rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            background: linear-gradient(135deg, #0F5132 0%, #198754 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Products Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .product-img {
+            background-color: var(--gray-light);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-medium);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .product-info {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Details Page */
+        .details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .details-img-placeholder {
+            background-color: var(--gray-light);
+            height: 400px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-medium);
+            font-weight: 600;
+        }
+
+        .details-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .details-info .price {
+            font-size: 1.75rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .details-info p {
+            color: var(--gray-medium);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Cart Page */
+        .cart-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .cart-summary {
+            margin-top: 2rem;
+            text-align: right;
+        }
+
+        .cart-summary h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--white);
+            border-top: 1px solid var(--gray-light);
+            color: var(--gray-medium);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .details-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .nav-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo" onclick="navigateTo('home')">SCIENCE PROGRESS</div>
+            <ul class="nav-links">
+                <li><a onclick="navigateTo('home')">Início</a></li>
+                <li><a onclick="navigateTo('catalog')">Catálogo</a></li>
+                <li><a onclick="navigateTo('cart')">Carrinho <span class="cart-badge" id="cart-count">0</span></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h1>Tecnologia & Exclusividade Importada</h1>
+                <p>Descubra relógios, joias, calçados e eletrônicos selecionados direto do exterior.</p>
+                <button class="btn" onclick="navigateTo('catalog')">Explorar Catálogo</button>
+            </div>
+
+            <h2 class="section-title">Destaques da Semana</h2>
+            <div class="product-grid">
+                
+              <!-- Produto 1: Relógio (Home) -->
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60" alt="Relógio Apex Chrono X" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Relógio Apex Chrono X</div>
+                          <div class="product-price">R$ 1.890,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Relógio Apex Chrono X', 'R$ 1.890,00', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <!-- Produto 2: Eletrônico (Home) -->
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60" alt="Fone Quantum Sound Pro" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Fone Quantum Sound Pro</div>
+                          <div class="product-price">R$ 950,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Fone Quantum Sound Pro', 'R$ 950,00', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <!-- Produto 3: Calçado (Home) -->
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60" alt="Tênis Future Walk Minimal" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Nike Free RN Flyknit 2017</div>
+                          <div class="product-price">R$ 720,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Nike Free RN Flyknit 2017', 'R$ 720,00', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+          </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página de Catálogo -->
+        <section id="catalog" class="page">
+          <h2 class="section-title">Catálogo Completo de Importados</h2>
+          <div class="product-grid">
+              
+              <!-- RELÓGIOS / SMARTWATCHES -->
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60" alt="Apple Watch" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Smartwatch Apple Watch Series 11</div>
+                          <div class="product-price">R$ 3.490,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Smartwatch Apple Watch Series 11', 'R$ 3.490,00', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://api.store.vivo.com.br/medias/96Wx96H-TGSA5414-Galaxy-Watch-Ultra-LTE-47mm-15-.jpg?context=bWFzdGVyfHByb2R1Y3RpbWFnZXN8Mzk1MjV8aW1hZ2UvanBlZ3xhRFpsTDJoallpODVORGN3TVRReE1EQTFPRFUwTHprMlYzZzVOa2hmVkVkVFFUVTBNVFJmUjJGc1lYaDVMVmRoZEdOb0xWVnNkSEpoTFV4VVJTMDBOMjF0WHlBb01UVXBMbXB3Wnd8NDk5ZjBjMmJhNWQ0ZTE1MmZjN2FjZGUzNzdkNjg0MDM1MDIxODYwY2U0NDRlYWQ4NDRiZjY1NDRhZmM2N2NmMw" alt="Samsung Galaxy Watch" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Smartwatch Samsung Galaxy Watch Pro</div>
+                          <div class="product-price">R$ 2.190,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Smartwatch Samsung Galaxy Watch Pro', 'R$ 2.190,00', 'https://api.store.vivo.com.br/medias/96Wx96H-TGSA5414-Galaxy-Watch-Ultra-LTE-47mm-15-.jpg?context=bWFzdGVyfHByb2R1Y3RpbWFnZXN8Mzk1MjV8aW1hZ2UvanBlZ3xhRFpsTDJoallpODVORGN3TVRReE1EQTFPRFUwTHprMlYzZzVOa2hmVkVkVFFUVTBNVFJmUjJGc1lYaDVMVmRoZEdOb0xWVnNkSEpoTFV4VVJTMDBOMjF0WHlBb01UVXBMbXB3Wnd8NDk5ZjBjMmJhNWQ0ZTE1MmZjN2FjZGUzNzdkNjg0MDM1MDIxODYwY2U0NDRlYWQ4NDRiZjY1NDRhZmM2N2NmMw')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://down-br.img.susercontent.com/file/sg-11134201-7rbmu-loc8vhps98bh88" alt="Xiaomi Watch" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Smartwatch Xiaomi Watch S Pro</div>
+                          <div class="product-price">R$ 1.150,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Smartwatch Xiaomi Watch S Pro', 'R$ 1.150,00', 'https://down-br.img.susercontent.com/file/sg-11134201-7rbmu-loc8vhps98bh88')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <!-- FONES / HEADPHONES & EARBUDS / AIRBUDS SEM FIO -->
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxJeaJykpuSEe48imJD8GEbLrY5VMS8JdLhB_KSxKcJFPYYLg_P8tnKDY&s=10" alt="Apple AirPods Pro" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Airbuds Apple AirPods Pro (2ª Geração)</div>
+                          <div class="product-price">R$ 1.890,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Airbuds Apple AirPods Pro (2ª Geração)', 'R$ 1.890,00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxJeaJykpuSEe48imJD8GEbLrY5VMS8JdLhB_KSxKcJFPYYLg_P8tnKDY&s=10')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://m.media-amazon.com/images/I/81mq9Oc4VEL._AC_UF350,350_QL80_.jpg" alt="Sennheiser Momentum" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Headphone Sennheiser Momentum Wireless</div>
+                          <div class="product-price">R$ 2.290,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Headphone Sennheiser Momentum Wireless', 'R$ 2.290,00', 'https://m.media-amazon.com/images/I/81mq9Oc4VEL._AC_UF350,350_QL80_.jpg')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&auto=format&fit=crop&q=60" alt="JBL Tour One" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Headphone JBL Tour One M2 Wireless</div>
+                          <div class="product-price">R$ 1.450,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Headphone JBL Tour One M2 Wireless', 'R$ 1.450,00', 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&auto=format&fit=crop&q=60')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAi45ilJ4U85r8W5BSuVSt2QbZ0qo87i19usWVLT5_rfjiEfBmDGcAvdu4&s=10" alt="Beats Studio Pro" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Headphone Beats Studio Pro Wireless</div>
+                          <div class="product-price">R$ 1.890,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Headphone Beats Studio Pro Wireless', 'R$ 1.890,00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAi45ilJ4U85r8W5BSuVSt2QbZ0qo87i19usWVLT5_rfjiEfBmDGcAvdu4&s=10')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://images.tcdn.com.br/img/img_prod/1225936/fone_de_ouvido_bluetooth_intra_auricular_lenovo_thinkplus_live_pods_lp1s_5_0_tws_microfone_reducao_d_1371_5_e19d41980b3f45a9aef60b4cd6e3bb24.jpg" alt="Lenovo Earbuds" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Airbuds Lenovo ThinkPlus Live Pods TWS</div>
+                          <div class="product-price">R$ 290,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Airbuds Lenovo ThinkPlus Live Pods TWS', 'R$ 290,00', 'https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=500&auto=format&fit=crop&q=60https://images.tcdn.com.br/img/img_prod/1225936/fone_de_ouvido_bluetooth_intra_auricular_lenovo_thinkplus_live_pods_lp1s_5_0_tws_microfone_reducao_d_1371_5_e19d41980b3f45a9aef60b4cd6e3bb24.jpg')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <!-- TÊNIS / CALÇADOS (Imagens corrigidas e correspondentes) -->
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://images.tcdn.com.br/img/img_prod/1303097/tenis_adidas_running_ultraboost_5_88131_variacao_330863_2_e0ecf4c2f9a9123430d4bfa08ab42bbb.jpg" alt="Adidas Ultraboost" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Tênis Adidas Ultraboost Importado</div>
+                          <div class="product-price">R$ 1.250,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Tênis Adidas Ultraboost Importado', 'R$ 1.250,00', 'https://images.tcdn.com.br/img/img_prod/1303097/tenis_adidas_running_ultraboost_5_88131_variacao_330863_2_e0ecf4c2f9a9123430d4bfa08ab42bbb.jpg')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiR0zyqZI_yfepLhQmj0m1DHFfhF-fdTxD9_pGh47wGtIjCgNg79F77ncO&s=10" alt="Puma Deviate Nitro" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Tênis Puma Deviate Nitro Elite</div>
+                          <div class="product-price">R$ 1.120,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Tênis Puma Deviate Nitro Elite', 'R$ 1.120,00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiR0zyqZI_yfepLhQmj0m1DHFfhF-fdTxD9_pGh47wGtIjCgNg79F77ncO&s=10')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc7sBCzs-iR5jMGWfVRtr1P4rcNqwWxZh1-TtR913l4vtgUEaoDbAsxp0H&s=10" alt="Asics Gel-Nimbus" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Tênis Asics Gel-Nimbus Importado</div>
+                          <div class="product-price">R$ 1.350,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Tênis Asics Gel-Nimbus Importado', 'R$ 1.350,00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc7sBCzs-iR5jMGWfVRtr1P4rcNqwWxZh1-TtR913l4vtgUEaoDbAsxp0H&s=10')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+              <div class="product-card">
+                  <div class="product-img-container">
+                      <img src="https://http2.mlstatic.com/D_NQ_NP_832243-MLB107751678422_032026-O-tenis-cloudmonster-two-on-running-esportivo-corrida-de-rua.webp" alt="On Running Cloudmonster" class="product-img">
+                  </div>
+                  <div class="product-info">
+                      <div>
+                          <div class="product-title">Tênis On Running Cloudmonster</div>
+                          <div class="product-price">R$ 1.590,00</div>
+                      </div>
+                      <button class="btn" onclick="openProduct('Tênis On Running Cloudmonster', 'R$ 1.590,00', 'https://http2.mlstatic.com/D_NQ_NP_832243-MLB107751678422_032026-O-tenis-cloudmonster-two-on-running-esportivo-corrida-de-rua.webp')">Ver Detalhes</button>
+                  </div>
+              </div>
+
+          </div>
+      </section>
+
+        <!-- Product Details Page -->
+        <section id="details" class="page">
+            <div class="details-container">
+                <div class="details-img-placeholder" id="detail-img-text">Foto em Alta Definição</div>
+                <div class="details-info">
+                    <h2 id="detail-title">Nome do Produto</h2>
+                    <div class="price" id="detail-price">R$ 0,00</div>
+                    <p id="detail-desc">Produto importado com certificação de autenticidade, materiais de alta durabilidade e design exclusivo desenvolvido para atender aos padrões mais rigorosos do mercado internacional.</p>
+                    <button class="btn" onclick="addToCart()">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Page -->
+        <section id="cart" class="page">
+            <h2 class="section-title">Carrinho de Compras</h2>
+            <div class="cart-container">
+                <div id="cart-items-list">
+                    <p style="color: var(--gray-medium);">Seu carrinho está vazio.</p>
+                </div>
+                <div class="cart-summary" id="cart-summary-section" style="display: none;">
+                    <h3 id="cart-total-text">Total: R$ 0,00</h3>
+                    <button class="btn" onclick="alert('Pedido simulado com sucesso! Obrigado por testar o protótipo da Science Progress.')">Finalizar Compra</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Science Progress E-commerce. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        let currentProduct = { name: '', price: '' };
+        let cart = [];
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function openProduct(name, price) {
+            currentProduct = { name, price };
+            document.getElementById('detail-title').innerText = name;
+            document.getElementById('detail-price').innerText = price;
+            document.getElementById('detail-img-text').innerText = name;
+            navigateTo('details');
+        }
+
+        function addToCart() {
+            cart.push(currentProduct);
+            updateCartUI();
+            navigateTo('cart');
+        }
+
+        function updateCartUI() {
+            const countElem = document.getElementById('cart-count');
+            const listElem = document.getElementById('cart-items-list');
+            const summaryElem = document.getElementById('cart-summary-section');
+            const totalText = document.getElementById('cart-total-text');
+
+            countElem.innerText = cart.length;
+
+            if (cart.length === 0) {
+                listElem.innerHTML = '<p style="color: var(--gray-medium);">Seu carrinho está vazio.</p>';
+                summaryElem.style.display = 'none';
+            } else {
+                let html = '';
+                let total = 0;
+                cart.forEach((item, index) => {
+                    // Remove R$ e converte para cálculo simples
+                    let numericPrice = parseFloat(item.price.replace('R$ ', '').replace('.', '').replace(',', '.'));
+                    total += numericPrice;
+                    html += `
+                        <div class="cart-item">
+                            <div>
+                                <strong>${item.name}</strong>
+                                <div style="color: var(--gray-medium); font-size: 0.9rem;">${item.price}</div>
+                            </div>
+                            <button style="background:none; border:none; color: #dc3545; cursor:pointer; font-weight:600;" onclick="removeFromCart(${index})">Remover</button>
+                        </div>
+                    `;
+                });
+                listElem.innerHTML = html;
+                summaryElem.style.display = 'block';
+                totalText.innerText = `Total: R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+    </script>
+</body>
+</html>
